@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class TodoListPage extends StatefulWidget {
   const TodoListPage({Key? key}) : super(key: key);
@@ -25,12 +26,9 @@ class _TodoListPageState extends State<TodoListPage> {
             ),
             ListTile(
               title: Text('ir para segunda página'),
-              // onTap: () {
-              //   Navigator.of(context).push(
-              //     MaterialPageRoute(
-              //         builder: (context) => const settings_page()),
-              //   );
-              // },
+              onTap: () {
+                Modular.to.pushNamed('/posts');
+              },
             ),
           ],
         ),
@@ -39,6 +37,7 @@ class _TodoListPageState extends State<TodoListPage> {
         title: const Text(
           'Lista de tarefas',
         ),
+        centerTitle: true,
       ),
       body: Container(
         padding: const EdgeInsets.all(24),
@@ -72,6 +71,7 @@ class _TodoListPageState extends State<TodoListPage> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           FloatingActionButton(
+            heroTag: "tag1",
             backgroundColor: Colors.black,
             onPressed: () {
               if (_textEditingController.text.isNotEmpty) {
@@ -85,6 +85,7 @@ class _TodoListPageState extends State<TodoListPage> {
             child: const Icon(Icons.add),
           ),
           FloatingActionButton(
+            heroTag: "tag2",
             backgroundColor: Colors.black,
             onPressed: () {
               setState(() {
