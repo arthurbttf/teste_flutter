@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:exemplo/app/modules/home/repositories/repository.dart';
 import 'package:exemplo/app/models/post_model.dart';
 import 'package:mobx/mobx.dart';
@@ -13,9 +12,12 @@ abstract class _HomeControllerBase with Store {
 
   @observable
   List<PostModel> posts = [];
+  String teste = 'test';
 
   @action
   Future listarPosts() async {
     posts = await _pageRepository.getPosts();
   }
 }
+
+//singleton

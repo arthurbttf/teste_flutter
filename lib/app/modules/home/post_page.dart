@@ -25,7 +25,7 @@ class _PostPageState extends State<PostPage> {
       body: Observer(
         builder: (_) {
           return ListView(
-            children: PostWidget(post: e),
+            //children: PostWidget(),
           );
         },
       ),
