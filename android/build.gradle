@@ -29,3 +29,8 @@ subprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+configurations.all {
+    resolutionStrategy {
+        force 'androidx.media:media:1.0.0'
+    }
+}

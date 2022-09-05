@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:dio/dio.dart';
 import 'package:exemplo/app/modules/home/login_page.dart';
 import 'package:exemplo/app/modules/home/page_controller.dart';
@@ -18,8 +16,8 @@ class AppModule extends Module {
 
   @override
   final List<ModularRoute> routes = [
-    ChildRoute('/', child: (context, args) => TodoListPage()),
-    ChildRoute('/posts', child: (context, args) => PostPage()),
-    ChildRoute('/login', child: (context, args) => LoginPage()),
+    ChildRoute('/todo', child: (context, args) => const TodoListPage()),
+    ChildRoute('/posts', child: (context, args) => const PostPage()),
+    ChildRoute('/', child: (context, args) => const LoginPage()),
   ];
 }

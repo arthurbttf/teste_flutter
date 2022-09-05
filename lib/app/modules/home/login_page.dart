@@ -1,7 +1,5 @@
 import 'package:exemplo/app/modules/home/page_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,9 +11,16 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   HomeController controller = Modular.get();
-  List<String> res = [];
+  List<List<String>> usrRegister = [];
+  List<List<String>> userBase = [
+    ['arthur.beserra', 'EeYi%b0'],
+    ['pubdev', 'flutter']
+  ];
   String usuario = '';
   String senha = '';
+  bool validateUser = false;
+  bool validatePasswd = false;
+  bool show = true;
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +42,10 @@ class _LoginPageState extends State<LoginPage> {
               onChanged: (text) {
                 usuario = text;
               },
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
                 labelText: 'Usuário',
+                errorText: validateUser ? 'Usuário não encontrado' : null,
               ),
             ),
           ),
@@ -47,13 +53,24 @@ class _LoginPageState extends State<LoginPage> {
             padding:
                 const EdgeInsets.only(top: 20, left: 60, right: 60, bottom: 20),
             child: TextField(
-              obscureText: true,
+              obscureText: show,
               onChanged: (text) {
                 senha = text;
               },
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                prefixIcon: const Icon(Icons.security),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    Icons.remove_red_eye,
+                    color: show ? Colors.grey : Colors.blue,
+                  ),
+                  onPressed: () {
+                    setState(() => show = !show);
+                  },
+                ),
                 labelText: 'Senha',
+                errorText: validatePasswd ? 'Senha não encontrada' : null,
                 //suffixIcon: IconButton(icon: Icon(Icons.remove_red_eye),onPressed: setState(() => showPasswd = !showpassW),),
               ),
             ),
@@ -63,16 +80,46 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(width: (MediaQuery.of(context).size.width / 2)),
               ElevatedButton(
                 onPressed: () {
-                  res.add(usuario);
-                  res.add(senha);
-                  //print(res);
+                  for (int i = 0; i < userBase.length; i++) {
+                    if (userBase[i].contains(usuario) &&
+                        userBase[i].contains(senha)) {
+                      Modular.to.pushNamed('/todo');
+                    }
+                  }
+                  setState(() {
+                    validateUser = true;
+                    validatePasswd = true;
+                  });
                 },
-                child: Text('Login'),
+                child: const Text('Login'),
               ),
               //SizedBox(width: 30),
               ElevatedButton(
-                onPressed: () {},
-                child: Text('Increver-se'),
+                onPressed: () {
+                  //print(teste[1].contains('pubdev'));
+                  if (usuario == '' && senha == '') {
+                    setState(() {
+                      validateUser = true;
+                      validatePasswd = true;
+                    });
+                  } else if (usuario == '') {
+                    setState(() {
+                      validateUser = true;
+                    });
+                  } else if (senha == '') {
+                    setState(() {
+                      validatePasswd = true;
+                    });
+                  } else {
+                    setState(() {
+                      validateUser = validatePasswd = false;
+                    });
+                    usrRegister.add([usuario, senha]);
+                    print(usrRegister);
+                    usrRegister.clear();
+                  }
+                },
+                child: const Text('Increver-se'),
               ),
             ],
           )

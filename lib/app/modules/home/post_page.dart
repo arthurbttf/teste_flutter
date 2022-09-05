@@ -1,5 +1,4 @@
 import 'package:exemplo/app/modules/home/page_controller.dart';
-import 'package:exemplo/app/modules/home/widgets/posts_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -25,8 +24,8 @@ class _PostPageState extends State<PostPage> {
       body: Observer(
         builder: (_) {
           return ListView(
-            //children: PostWidget(),
-          );
+              //children: PostWidget(),
+              );
         },
       ),
       //drawer: Drawer(),

@@ -18,14 +18,14 @@ class _TodoListPageState extends State<TodoListPage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
               child: Text('Drawer'),
             ),
             ListTile(
-              title: Text('ir para segunda página'),
+              title: const Text('ir para segunda página'),
               onTap: () {
                 Modular.to.pushNamed('/posts');
               },
