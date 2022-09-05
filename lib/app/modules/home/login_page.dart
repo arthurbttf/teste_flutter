@@ -76,8 +76,8 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(width: (MediaQuery.of(context).size.width / 2)),
               ElevatedButton(
                 onPressed: () {
                   for (int i = 0; i < userBase.length; i++) {
@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                 },
                 child: const Text('Login'),
               ),
-              //SizedBox(width: 30),
+              const SizedBox(width: 30),
               ElevatedButton(
                 onPressed: () {
                   //print(teste[1].contains('pubdev'));
@@ -115,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                       validateUser = validatePasswd = false;
                     });
                     usrRegister.add([usuario, senha]);
-                    print(usrRegister);
+                    //print(usrRegister);
                     usrRegister.clear();
                   }
                 },
