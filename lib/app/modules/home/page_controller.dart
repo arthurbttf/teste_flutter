@@ -1,4 +1,4 @@
-import 'package:exemplo/app/modules/home/repositories/repository.dart';
+import 'package:exemplo/app/modules/posts/repositories/repository.dart';
 import 'package:exemplo/app/models/post_model.dart';
 // ignore: depend_on_referenced_packages
 import 'package:mobx/mobx.dart';

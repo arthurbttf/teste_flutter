@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:exemplo/app/modules/home/login_page.dart';
+import 'package:exemplo/app/modules/autenticacao/login_page.dart';
 import 'package:exemplo/app/modules/home/page_controller.dart';
-import 'package:exemplo/app/modules/home/post_page.dart';
-import 'package:exemplo/app/modules/home/repositories/repository.dart';
-import 'package:exemplo/app/modules/home/todo_list_page.dart';
+import 'package:exemplo/app/modules/posts/post_page.dart';
+import 'package:exemplo/app/modules/posts/repositories/repository.dart';
+import 'package:exemplo/app/modules/home/home.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class AppModule extends Module {

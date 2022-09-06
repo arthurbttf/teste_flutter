@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TodoListPage extends StatefulWidget {
   const TodoListPage({Key? key}) : super(key: key);
@@ -30,6 +31,12 @@ class _TodoListPageState extends State<TodoListPage> {
                 Modular.to.pushNamed('/posts');
               },
             ),
+            ListTile(
+              title: const Text('Sair'),
+              onTap: () {
+                //logout();
+              },
+            )
           ],
         ),
       ),
