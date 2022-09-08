@@ -10,109 +10,118 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  autenticacaoController controller = Modular.get();
-  //List<List<String>> usrRegister = [];
+  AutenticacaoController controller = Modular.get();
+  bool validateUser = false;
+  bool validatePasswd = false;
   String usuario = '';
   String senha = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Colors.black,
-      body: Column(
-        //mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 100),
-            child: Text('heççp'),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 100, left: 60, right: 60, bottom: 20),
-            child: TextField(
-              //style: TextStyle(color: Colors.white),
-              obscureText: false,
-              onChanged: (text) {
-                usuario = text;
-              },
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                labelText: 'Usuário',
-                errorText:
-                    controller.validateUser ? 'Usuário não encontrado' : null,
+      backgroundColor: const Color.fromARGB(37, 76, 0, 255),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 120, left: 60, right: 60),
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/delta-white.png',
+                    width: 65,
+                    height: 65,
+                  ),
+                ],
               ),
             ),
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.only(top: 20, left: 60, right: 60, bottom: 20),
-            child: TextField(
-              obscureText: controller.show,
-              onChanged: (text) {
-                senha = text;
-              },
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                prefixIcon: const Icon(Icons.security),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    Icons.remove_red_eye,
-                    color: controller.show ? Colors.grey : Colors.blue,
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 60, left: 60, right: 60, bottom: 20),
+              child: TextField(
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.white),
+                obscureText: false,
+                onChanged: (text) {
+                  usuario = text;
+                },
+                decoration: InputDecoration(
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey, width: 1),
+                  ),
+                  labelStyle: const TextStyle(color: Colors.grey),
+                  border: const OutlineInputBorder(),
+                  labelText: 'Usuário',
+                  errorText: validateUser ? 'Usuário não preenchido' : null,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 20, left: 60, right: 60, bottom: 20),
+              child: TextField(
+                style: const TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+                obscureText: controller.show,
+                onChanged: (text) {
+                  senha = text;
+                },
+                decoration: InputDecoration(
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey, width: 1),
+                  ),
+                  labelStyle: const TextStyle(color: Colors.grey),
+                  border: const OutlineInputBorder(),
+                  prefixIcon: const Icon(
+                    Icons.security,
+                    color: Colors.white,
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      Icons.remove_red_eye,
+                      color: controller.show
+                          ? Colors.grey
+                          : const Color.fromARGB(255, 38, 75, 129),
+                    ),
+                    onPressed: () {
+                      setState(() => controller.show = !controller.show);
+                    },
+                  ),
+                  labelText: 'Senha',
+                  errorText: validatePasswd ? 'Senha não preenchida' : null,
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      const Color.fromARGB(255, 38, 75, 129),
+                    ),
                   ),
                   onPressed: () {
-                    setState(() => controller.show = !controller.show);
+                    if (usuario == '' && senha == '') {
+                      setState(() {
+                        validateUser = true;
+                        validatePasswd = true;
+                      });
+                    } else if (usuario == '') {
+                      setState(() => validateUser = !validateUser);
+                    } else if (senha == '') {
+                      setState(() => validatePasswd = !validatePasswd);
+                    } else {
+                      controller.register(usuario, senha);
+                      Modular.to.pushReplacementNamed('/todo');
+                    }
                   },
+                  child: const Text('Login'),
                 ),
-                labelText: 'Senha',
-                errorText:
-                    controller.validatePasswd ? 'Senha não encontrada' : null,
-                //suffixIcon: IconButton(icon: Icon(Icons.remove_red_eye),onPressed: setState(() => showPasswd = !showpassW),),
-              ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  // for (int i = 0; i < userBase.length; i++) {
-                  //   if (userBase[i].contains(usuario) &&
-                  //       userBase[i].contains(senha)) {
-                  //     Modular.to.pushNamed('/todo');
-                  //   }
-                  // }
-                  //find(usuario, senha);
-                },
-                child: const Text('Login'),
-              ),
-              const SizedBox(width: 30),
-              ElevatedButton(
-                onPressed: () {
-                  if (usuario == '' && senha == '') {
-                    setState(() {
-                      controller.validateUser = true;
-                      controller.validatePasswd = true;
-                    });
-                  } else if (usuario == '') {
-                    setState(() {
-                      controller.validateUser = true;
-                    });
-                  } else if (senha == '') {
-                    setState(() {
-                      controller.validatePasswd = true;
-                    });
-                  } else {
-                    setState(() {
-                      controller.validateUser =
-                          controller.validatePasswd = false;
-                    });
-                  }
-                },
-                child: const Text('Increver-se'),
-              ),
-            ],
-          )
-        ],
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

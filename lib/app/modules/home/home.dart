@@ -1,6 +1,6 @@
+import 'package:exemplo/app/app_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class TodoListPage extends StatefulWidget {
   const TodoListPage({Key? key}) : super(key: key);
@@ -11,10 +11,12 @@ class TodoListPage extends StatefulWidget {
 
 class _TodoListPageState extends State<TodoListPage> {
   final TextEditingController _textEditingController = TextEditingController();
+  AppStore controller = Modular.get();
   List<String> tarefas = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(37, 76, 0, 255),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -34,7 +36,7 @@ class _TodoListPageState extends State<TodoListPage> {
             ListTile(
               title: const Text('Sair'),
               onTap: () {
-                //logout();
+                controller.logout();
               },
             )
           ],
