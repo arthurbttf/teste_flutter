@@ -25,15 +25,12 @@ class _LoadingState extends State<Loading> {
         color: Color.fromARGB(37, 76, 0, 255),
       ),
       child: const Center(
-        child: CircularProgressIndicator(
-          color: Colors.white,
-          backgroundColor: Colors.greenAccent,
-        ),
+        child: CircularProgressIndicator(),
       ),
     );
   }
 
   void isLoggedIn() async {
-    controller.login();
+    controller.checkLocalLogin();
   }
 }

@@ -58,29 +58,6 @@ class _PostWidgetState extends State<PostWidget> {
                 ),
               ),
               const SizedBox(height: 10),
-              Row(
-                children: [
-                  GestureDetector(
-                    child: Image.asset(
-                      'assets/imagens/heart-solid.png',
-                      scale: 35,
-                      color: Colors.white,
-                    ),
-                    onTap: () {
-                      setState(() {
-                        contador++;
-                      });
-                    },
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    contador.toString(),
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ],
-              )
             ],
           ),
         ),
