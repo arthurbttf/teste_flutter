@@ -84,7 +84,7 @@ class _PostPageState extends State<PostPage> {
         children: posts,
       );
     }
-    return Center();
+    return const Center();
   }
 
   List<Widget> listarPosts(PostController controller, BuildContext context) {
