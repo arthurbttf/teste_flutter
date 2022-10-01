@@ -1,6 +1,13 @@
+import 'package:esig_utils/size_screen.dart';
 import 'package:exemplo/app/app_store.dart';
+import 'package:exemplo/app/models/gasto.dart';
+import 'package:exemplo/app/modules/home/home_controller.dart';
+import 'package:exemplo/app/modules/home/widgets/listar_gastos.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:loading_empty_error/error_widget.dart';
+import 'package:loading_empty_error/loading_widget.dart';
 
 class TodoListPage extends StatefulWidget {
   const TodoListPage({Key? key}) : super(key: key);
@@ -10,103 +17,160 @@ class TodoListPage extends StatefulWidget {
 }
 
 class _TodoListPageState extends State<TodoListPage> {
-  final TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _nomeController = TextEditingController();
+  final TextEditingController _valorController = TextEditingController();
+  final TextEditingController _categoriaController = TextEditingController();
   AppStore controller = Modular.get();
-  List<String> tarefas = [];
+  HomeController homeController = Modular.get();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(37, 76, 0, 255),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text('Drawer'),
+      body: ListView.builder(
+        itemBuilder: (BuildContext, index) {
+          return Card(
+            child: ListTile(
+              title: Text(homeController.categoria[index].nome),
+              onTap: () {},
             ),
-            ListTile(
-              title: const Text('ir para segunda página'),
-              onTap: () {
-                Modular.to.pushNamed('/posts');
-              },
-            ),
-            ListTile(
-              title: const Text('Sair'),
-              onTap: () {
-                controller.logout();
-              },
-            )
-          ],
-        ),
+          );
+        },
+        itemCount: homeController.categoria.length,
+        shrinkWrap: true,
+        padding: const EdgeInsets.all(5),
+        scrollDirection: Axis.vertical,
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return _buildAboutDialog(context);
+              });
+        },
+        label: const Text('Adicionar gasto'),
+        icon: const Icon(Icons.thumb_up),
+        backgroundColor: Colors.pink,
       ),
       appBar: AppBar(
         title: const Text(
-          'Lista de tarefas',
+          'Lista de posts',
         ),
         centerTitle: true,
       ),
-      body: Container(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          children: [
-            TextField(
-              controller: _textEditingController,
-            ),
-            SizedBox(
-              height: 400,
-              child: ListView.separated(
-                separatorBuilder: ((context, index) => const Divider()),
-                itemCount: tarefas.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(tarefas[index]),
-                    onLongPress: () {
-                      setState(() {
-                        tarefas.removeAt(index);
-                      });
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
+    );
+  }
+
+  Widget _inputBuilder() {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(5),
+          child: _buildDropDown(),
         ),
-      ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            heroTag: "tag1",
-            backgroundColor: Colors.black,
-            onPressed: () {
-              if (_textEditingController.text.isNotEmpty) {
-                setState(() {
-                  tarefas.add(_textEditingController.text);
-                });
-                _textEditingController.clear();
-              }
-              //print(tarefas);
-            },
-            child: const Icon(Icons.add),
+        Padding(
+          padding: const EdgeInsets.all(5),
+          child: TextField(
+            controller: _nomeController,
+            style: const TextStyle(color: Colors.white),
+            textAlign: TextAlign.center,
+            decoration: const InputDecoration(
+              labelText: 'Nome do gasto',
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey, width: 1),
+              ),
+              labelStyle: TextStyle(color: Colors.grey),
+              border: OutlineInputBorder(),
+            ),
           ),
-          FloatingActionButton(
-            heroTag: "tag2",
-            backgroundColor: Colors.black,
-            onPressed: () {
-              setState(() {
-                tarefas = [];
-              });
-              //_textEditingController.clear();
-              //print(tarefas);
-            },
-            child: const Icon(Icons.remove),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(5),
+          child: TextField(
+            controller: _valorController,
+            style: const TextStyle(color: Colors.white),
+            textAlign: TextAlign.center,
+            decoration: const InputDecoration(
+              labelText: 'Valor do gasto',
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey, width: 1),
+              ),
+              labelStyle: TextStyle(color: Colors.grey),
+              border: OutlineInputBorder(),
+            ),
           ),
-        ],
+        ),
+        _buttonBuilder(),
+      ],
+    );
+  }
+
+  Widget _buttonBuilder() {
+    return ElevatedButton(
+        onPressed: () {
+          setState(() {
+            homeController.categoria.add(Categoria(gasto: [
+              Gasto(
+                nome: 'moto',
+                valor: _valorController.toString(),
+              )
+            ], nome: _categoriaController.toString()));
+          });
+        },
+        child: const Text('Done'));
+  }
+
+  Widget _buildAboutDialog(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: const Color.fromARGB(37, 76, 0, 255),
+      title: const Text(
+        'Insira seu gasto',
+        style: TextStyle(color: Colors.white),
       ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [_inputBuilder()],
+      ),
+    );
+  }
+
+  Widget _buildPostsPage() {
+    return ListView(
+      children: [
+        Card(
+          child: ListTile(
+            title: Text(homeController.categoria.length.toString()),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _buildDropDown() {
+    const List<String> list = ['Moto', 'Almoço', 'Aleatório', 'Quilometragem'];
+    String dropdownValue = list.first;
+    return DropdownButton<String>(
+      value: dropdownValue,
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          dropdownValue = value!;
+        });
+      },
+      items: list.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 }

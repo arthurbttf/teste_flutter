@@ -1,3 +1,4 @@
+import 'package:exemplo/app/models/gasto.dart';
 import 'package:exemplo/app/modules/posts/repositories/repository.dart';
 import 'package:exemplo/app/models/post_model.dart';
 // ignore: depend_on_referenced_packages
@@ -14,7 +15,8 @@ abstract class _HomeControllerBase with Store {
 
   @observable
   List<PostModel> posts = [];
-  String teste = 'test';
+  @observable
+  List<Categoria> categoria = [];
 
   @action
   Future listarPosts() async {

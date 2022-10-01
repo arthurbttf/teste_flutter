@@ -156,9 +156,6 @@ class _LoginPageState extends State<LoginPage> {
             style: const TextStyle(color: Colors.white),
             textAlign: TextAlign.center,
             obscureText: autenticacaoController.show,
-            onChanged: (text) {
-              senha = text;
-            },
             decoration: InputDecoration(
               labelText: 'Senha',
               errorText: validatePasswd ? 'senha inválida' : null,
